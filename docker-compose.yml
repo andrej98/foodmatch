@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  mysql_foodmatch:
+    image: mysql:5.7
+    environment:
+      - MYSQL_DATABASE=foodmatch
+      - MYSQL_ROOT_PASSWORD=password
+    ports:
+      - "3309:3306"
+    volumes:
+      - mysql_data_foodmatch:/var/lib/mysql
+  phpmyadmin_instance:
+    image: phpmyadmin:5-apache
+    links:
+      - mysql_foodmatch
+    environment:
+      PMA_HOST: mysql_foodmatch
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+      UPLOAD_LIMIT: 64M
+    restart: always
+    ports:
+      - 8084:80
+
+volumes:
+  mysql_data_foodmatch:
