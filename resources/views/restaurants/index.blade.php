@@ -14,10 +14,7 @@
                         </div>
                     @endif
 
-                    {{-- <a href="{{ route('restaurants.index') }}" class="btn btn-primary">Swipe</a> --}}
-                    <a href="{{ route('groups.index') }}" class="btn btn-primary">Groups</a>
-                    {{-- <a href="{{ route('preferences.index') }}" class="btn btn-primary">Preferences</a> --}}
-
+                    Restaurants
                 </div>
             </div>
         </div>

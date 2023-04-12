@@ -81,17 +81,12 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    {{-- FoodMatch --}}
+                    <img src="{{ asset('foodmatchlogo.png') }}" alt="Foodmatch Logo">
                 </div>
 
                 <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <a>Connecting people through food.</a>
                 </div>
             </div>
         </div>

@@ -10,6 +10,11 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    public function preferences()
+    {
+        return $this->hasOne(Preferences::class);
+    }
+
     /**
      * The attributes that are mass assignable.
      *
