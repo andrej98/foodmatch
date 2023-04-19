@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use App\Model\Preferences;
+use App\Model\Like;
+use App\Model\Rating;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -18,6 +20,16 @@ class User extends Authenticatable
     public function groups()
     {
         return $this->belongsToMany(\App\Model\Group::class);
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
     }
 
     /**

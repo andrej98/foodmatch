@@ -46,8 +46,9 @@ class GroupController extends Controller
     public function show(Group $group)
     {
         $members = $group->users;
+        $matches = $group->restaurants;
 
-        return view('groups.show', compact('group', 'members'));
+        return view('groups.show', compact('group', 'members', 'matches'));
     }
 
     public function edit(Group $group)
