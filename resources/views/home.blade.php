@@ -16,11 +16,16 @@
 
                     {{-- <a href="{{ route('restaurants.index') }}" class="btn btn-primary">Swipe</a> --}}
                     <a href="{{ route('groups.index') }}" class="btn btn-primary">Groups</a>
-                    {{-- <a href="{{ route('preferences.index') }}" class="btn btn-primary">Preferences</a> --}}
+                    @if($preference)
+    <a href="{{ route('preferences.edit', $preference) }}" class="btn btn-primary">Preferences</a>
+@else
+    <a href="{{ route('preferences.create') }}" class="btn btn-primary">Preferences</a>
+@endif
+
+@endsection
 
                 </div>
             </div>
         </div>
     </div>
 </div>
-@endsection

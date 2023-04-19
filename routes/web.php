@@ -28,10 +28,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/groups/{group}/leave', '\App\Http\Controllers\GroupController@leave')->name('groups.leave');
 });
 Route::middleware('auth')->group(function () {
-
-    Route::get('/preferences/create', [PreferenceController::class, 'create'])->name('preferences.create');
-    Route::post('/preferences', [PreferenceController::class, 'store'])->name('preferences.store');
-    Route::get('/preferences/{preference}/edit', [PreferenceController::class, 'edit'])->name('preferences.edit');
-    Route::put('/preferences/{preference}', [PreferenceController::class, 'update'])->name('preferences.update');
-    Route::get('/preferences/{preference}', [PreferenceController::class, 'show'])->name('preferences.show');
-}
+    Route::get('/preferences/create', '\App\Http\Controllers\PreferencesController@create')->name('preferences.create');
+    Route::post('/preferences', '\App\Http\Controllers\PreferencesController@store')->name('preferences.store');
+    Route::get('/preferences/{preference}/edit', '\App\Http\Controllers\PreferencesController@edit')->name('preferences.edit');
+    Route::post('/preferences/{preference}', '\App\Http\Controllers\PreferencesController@store')->name('preferences.update');
+    Route::get('/preferences/{preference}', '\App\Http\Controllers\PreferencesController@show')->name('preferences.show');
+});
