@@ -8,7 +8,7 @@
                     <div class="card-header">{{ __('Preferences') }}</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ $preference->id ? route('preferences.update', $preference->id) : route('preferences.store') }}">
+                        <form method="POST" action="{{ $preference->id ? route('preferences.store', $preference->id) : route('preferences.store') }}">
                             @csrf
                             @method('POST')
 

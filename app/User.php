@@ -15,6 +15,11 @@ class User extends Authenticatable
         return $this->hasOne(Preferences::class);
     }
 
+    public function groups()
+    {
+        return $this->belongsToMany(\App\Model\Group::class);
+    }
+
     /**
      * The attributes that are mass assignable.
      *

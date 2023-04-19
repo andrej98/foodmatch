@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Model\Group;
+use App\Rules\AlreadyInGroup;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use App\Rules\CodeExists;
 
 class GroupController extends Controller
 {
@@ -72,22 +74,30 @@ class GroupController extends Controller
         return redirect()->route('groups.index');
     }
 
-    public function join(Request $request, Group $group)
+    public function showJoin()
     {
-        $request->validate([
-            'code' => 'required',
+        return view('groups.join');
+    }
+
+    public function join(Request $request)
+    {
+        $validatedData = $request->validate([
+            'code' => ['required', new CodeExists, new AlreadyInGroup],
         ]);
 
         $user = auth()->user();
 
-        $existingGroup = $user->groups()->where('id', $group->id)->first();
-
-        if ($existingGroup) {
-            return redirect()->route('groups.show', $group);
-        }
-
-        $group->users()->syncWithoutDetaching([$user->id => ['code' => $request->code]]);
+        $group = Group::where('code', $request->code)->firstOrFail();
+        $user->groups()->attach($group->id);
 
         return redirect()->route('groups.show', $group);
+    }
+
+    public function leave(Group $group)
+    {
+        $user = auth()->user();
+
+        $group->users()->detach($user);
+        return back();
     }
 }
