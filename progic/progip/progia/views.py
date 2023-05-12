@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from .models import Restaurants, Preferences
+import json
 
 # Create your views here.
 def recomendaciones(request, id):
@@ -9,10 +10,10 @@ def recomendaciones(request, id):
     data = Restaurants.objects.all().order_by("-rating")
     if preferences.vegan:
         data= data.filter(vegan = 1)
-    
+
     if preferences.vegetarian:
         data= data.filter(vegetarian = 1)
-    
+
     if preferences.bio_food:
         data = data.order_by("-bio_food", "-rating")
 
@@ -21,17 +22,15 @@ def recomendaciones(request, id):
 
     if preferences.lactose_intolerance:
         data = data.filter(lactose_intolerance = 1)
-  
+
     if preferences.nut_allergy:
         data = data.filter(nut_allergy = 1)
 
     if preferences.local_food:
         data = data.order_by("-local_food", "-rating")
 
+    data = list(data.values())
 
-    
+    data = [data['id'] for data in data if 'id' in data]
 
-
-
-
-    return HttpResponse(data[0], request)
+    return JsonResponse(data, safe=False)

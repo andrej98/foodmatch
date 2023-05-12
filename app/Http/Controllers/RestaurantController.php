@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Model\Restaurant;
 use App\Model\Like;
 use App\Model\Rating;
+use Illuminate\Support\Facades\Http;
+use GuzzleHttp\Client;
 
 class RestaurantController extends Controller
 {
@@ -15,14 +17,46 @@ class RestaurantController extends Controller
         $preference = $user->preferences;
 
         //algorithm to show the restaurant based on users preferences
-        $restaurant = Restaurant::inRandomOrder()->first();
+        // $restaurant = Restaurant::inRandomOrder()->first();
+
+        $client = new Client();
+
+        $response = $client->request('GET', 'http://localhost:8001/recommendation/'.$user->id);
+
+        $body = $response->getBody();
+
+        $data = json_decode($body, true);
+
+        $count = 0;
+        foreach($data as $restaurantId) {
+            $restaurant = Restaurant::find($restaurantId);
+
+            if($user->likes()->where('restaurant_id', $restaurant->id)->exists()) {
+                $count++;
+            } else {
+                break;
+            }
+        }
+
+        $noData = 0;
+        if($count >= count($data)){
+            $noData = 1;
+        }
+
         $averageRating = $restaurant->ratings()->avg('rating');
 
-        return view('restaurants.showOne', compact('restaurant', 'averageRating'));
+        return view('restaurants.showOne', compact('restaurant', 'averageRating', 'noData'));
     }
 
     public function reject(Restaurant $restaurant)
     {
+        $user = auth()->user();
+        if(!$user->likes()->where('restaurant_id', $restaurant->id)->exists()) {
+            $user->likes()->create([
+                'restaurant_id' => $restaurant->id,
+                'liked' => false
+            ]);
+        }
         return redirect()->route('restaurants.showOne');
     }
 
